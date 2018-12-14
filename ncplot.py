@@ -65,7 +65,7 @@ province_b = province_b.to_crs({'init':'epsg:4326'})
 # ==============================================================================
 fig = plt.figure()
 ax = fig.add_axes([0.05,0.05,0.8,0.9])
-ax.contourf(lon,lat,value,8,alpha=1,cmap=cmap) # 8为颜色数目，可调整
+ax.contourf(lon,lat,value,8,alpha=1,cmap=cmap) #8为颜色数目，可调整
 province_b.plot(ax=ax,color=(0,0,0,0),edgecolor=(0,0,0,1),linestyle='--')
 ax.set_xlim(lon.min()-1,lon.max()+1),ax.set_ylim(lat.min()-1,lat.max()+4)
 cax = fig.add_axes([0.86,0.06,0.03,0.8])
