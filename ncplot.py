@@ -19,12 +19,13 @@ from matplotlib.font_manager import FontProperties
 # ==============================================================================
 """定义绘制参数"""
 # ==============================================================================
+dataset = netCDF4.Dataset('文件路径')
+# 读取nc文件路径，请自行修改
 [timeindex,etaindex,type,cmap] = [0,0,'PB','RdYlBu']
 # 在上一行中定义需要绘制的时间序数、垂直高度的层序数、需要绘制的气象要素代号、色带编号
 # 其中气象要素代号可通过下行中被注释掉的输出函数进行查看
 # print(dataset.variables.keys())
 # 色带标号可前往"https://matplotlib.org/examples/color/colormaps_reference.html"
-dataset = netCDF4.Dataset('文件路径')
 # ==============================================================================
 
 # ==============================================================================
@@ -48,9 +49,8 @@ typedescription = re.compile('description: .*')\
                     .findall(str(dataset.variables[type]))[0][13:]
 unit = re.compile('units: .*').findall(str(dataset.variables[type]))[0][7:]
 # typedescription与unit读取了所绘制气象要素的描述和单位，若不能正常显示请使用下行被注释的
-# 输出行查看描述信息，并修改正则表达式
+# 输出行查看描述信息，并修改相应的正则表达式
 # print(dataset.dimensions)
-# valuearray = np.vstack((np.array(lon).reshape(-1),\
 # ==============================================================================
 
 # ==============================================================================
@@ -65,7 +65,7 @@ province_b = province_b.to_crs({'init':'epsg:4326'})
 # ==============================================================================
 fig = plt.figure()
 ax = fig.add_axes([0.05,0.05,0.8,0.9])
-ax.contourf(lon,lat,value,8,alpha=1,cmap=cmap)
+ax.contourf(lon,lat,value,8,alpha=1,cmap=cmap) # 8为颜色数目，可调整
 province_b.plot(ax=ax,color=(0,0,0,0),edgecolor=(0,0,0,1),linestyle='--')
 ax.set_xlim(lon.min()-1,lon.max()+1),ax.set_ylim(lat.min()-1,lat.max()+4)
 cax = fig.add_axes([0.86,0.06,0.03,0.8])
@@ -77,5 +77,5 @@ title = timestr+'/(Level='+str(etaindex+1)+')\n'+typedescription+'/('+unit+')'
 fontprop = FontProperties(fname='/System/Library/Fonts/Times.ttc')
 ax.text(lon.mean(),lat.max()+1.8,title,horizontalalignment='center',\
         verticalalignment='center',fontproperties=fontprop)
-plt.show()
+plt.show(dpi=500)
 # ==============================================================================
